@@ -1,6 +1,6 @@
 /* eslint-disable import/no-cycle */
-import { AppDispatch } from "~redux/store";
-import { Break, User } from "~types";
+import { AppDispatch } from "@/redux/store";
+import { Break, User } from "@/types";
 
 export type AsyncThunkConfig = {
   /** return type for `thunkApi.getState` */
@@ -34,11 +34,17 @@ export enum Status {
 }
 
 export interface RegisterPayload extends User {
-  timezone?: string
+  firstname: string,
+  lastname: string,
+  companyemail: string,
+  companyname: string,
+  password: string,
+  phonenumber: string,
+  role: string
 }
 
 export interface LoginPayload {
-  email: string;
+  companyemail: string;
   password: string
 }
 

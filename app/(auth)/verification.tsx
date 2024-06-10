@@ -5,10 +5,9 @@ import BackButton from "@/components/BackButton";
 import styles from "@/styles/styles";
 import OtpInput from "@/components/OtpInput";
 import RTouchableOpacity from "@/components/RTouchableOpacity";
+import { router } from "expo-router";
 
-
-
-export default function Verification({navigation}:any){
+export default function Verification({ navigation }: any) {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   // const email = route.params?.email || "";
   const mergedOtp = otp.join("");
@@ -22,21 +21,17 @@ export default function Verification({navigation}:any){
   };
 
   const handleContinue = async () => {
-       
-      navigation.navigate("SignIn");
-
+    navigation.navigate("SignIn");
   };
 
   const handleContinueWithoutVerification = () => {
-    
-    navigation.push("SignIn");
+    router.push("/sign-in");
   };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.topBar}>
         <BackButton />
-        <RText>Back</RText>
       </View>
 
       <View style={styles.container1}>
@@ -48,37 +43,28 @@ export default function Verification({navigation}:any){
             </RText>
           </View>
           <OtpInput otp={otp} handleChange={handleChange} inputs={inputs} />
-       
+
           <RTouchableOpacity
             backgroundColor="white"
             onPress={handleContinue}
             disabled={mergedOtp.length < 6}
           >
-            <RText fontWeight="semibold">
-              Continue
-            </RText>
+            <RText fontWeight="semibold">Continue</RText>
           </RTouchableOpacity>
 
-         
-
           <RTouchableOpacity backgroundColor="black">
-            <RText color="white"  fontWeight="semibold">
+            <RText color="white" fontWeight="semibold">
               Resend code
             </RText>
           </RTouchableOpacity>
-          
-          <RTouchableOpacity
-           
-           onPress={handleContinueWithoutVerification}
-         >
-           <RText color="black"  fontWeight="semibold">
-             Continue without verifying
-           </RText>
-         </RTouchableOpacity>
+
+          <RTouchableOpacity onPress={handleContinueWithoutVerification}>
+            <RText color="black" fontWeight="semibold">
+              Continue without verifying
+            </RText>
+          </RTouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
   );
-};
-
-
+}

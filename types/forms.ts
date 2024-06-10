@@ -7,12 +7,13 @@ export interface SignupOneInput {
 }
 
 export interface SignupTwoInput {
-  about?: string
-  website?: string
-  address_one: string
-  address_two?: string
-  city: string
-  post_code: string
+  firstname: string,
+  lastname: string,
+  companyemail: string,
+  companyname: string,
+  password: string,
+  phonenumber: string,
+  role: string
 }
 
 export interface ResetPasswordInput {

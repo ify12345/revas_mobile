@@ -1,5 +1,4 @@
 import { useAppDispatch } from "@/redux/store";
-import { getUser } from "@/api/auth";
 import { View, SafeAreaView, ScrollView, TouchableOpacity } from "react-native";
 import React, { useState, useEffect } from "react";
 import Toast from "react-native-toast-message";
@@ -11,6 +10,8 @@ import { HCheckbox, HInput } from "../../components/HForm";
 import RTouchableOpacity from "../../components/RTouchableOpacity";
 import { router } from "expo-router";
 import Loader from "@/components/loader";
+import { getUserDetails } from "@/redux/reducers/auth";
+
 
 export default function SignUp({
   navigation,
@@ -26,9 +27,11 @@ export default function SignUp({
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
-    email: "",
+    companyemail: "",
+    companyname: "",
     password: "",
     phonenumber: "",
+    role: ""
   });
 
   useEffect(() => {
@@ -36,7 +39,9 @@ export default function SignUp({
       !(
         formData.firstname &&
         formData.lastname &&
-        formData.email &&
+        formData.companyemail &&
+        formData.companyname &&
+        formData.role &&
         formData.password &&
         formData.phonenumber &&
         isChecked
@@ -44,26 +49,16 @@ export default function SignUp({
     );
   }, [formData, isChecked]);
 
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
+
 
   const handleSubmit = () => {
     setDisabled(true);
     setLoading(true);
     console.log("Form Data:", formData);
 
-    dispatch(getUser(formData))
-      .unwrap()
-      .then(() => {
-        setLoading(false)
-        router.push('/verification')
-      })
-      .catch((err) => {
-        setLoading(false)
-        Toast.show({
-          type: 'error',
-          props: {message: err?.msg}
-        })
-      })
+    dispatch(getUserDetails(formData))
+    router.push('/set-up')
   };
 
   return (
@@ -88,7 +83,7 @@ export default function SignUp({
             </View>
 
             <HInput
-              label="Full Name"
+              label="First name"
               type={2}
               width="100%"
               placeholder="Enter full name"
@@ -101,10 +96,10 @@ export default function SignUp({
               value={formData.firstname}
             />
             <HInput
-              width="100%"
-              label="Company Name"
+              label="Last name"
               type={2}
-              placeholder="Enter Company name"
+              width="100%"
+              placeholder="Enter last name"
               onChangeText={(text: any) =>
                 setFormData({
                   ...formData,
@@ -114,6 +109,32 @@ export default function SignUp({
               value={formData.lastname}
             />
             <HInput
+              label="Role"
+              type={2}
+              width="100%"
+              placeholder="Enter role"
+              onChangeText={(text: any) =>
+                setFormData({
+                  ...formData,
+                  role: text,
+                })
+              }
+              value={formData.role}
+            />
+            <HInput
+              width="100%"
+              label="Company Name"
+              type={2}
+              placeholder="Enter Company name"
+              onChangeText={(text: any) =>
+                setFormData({
+                  ...formData,
+                  companyname: text,
+                })
+              }
+              value={formData.companyname}
+            />
+            <HInput
               label="Company Email"
               width="100%"
               type={2}
@@ -121,10 +142,10 @@ export default function SignUp({
               onChangeText={(text: any) =>
                 setFormData({
                   ...formData,
-                  email: text.toLowerCase(),
+                  companyemail: text.toLowerCase(),
                 })
               }
-              value={formData.email}
+              value={formData.companyemail}
             />
             <HInput
               width="100%"
@@ -191,7 +212,7 @@ export default function SignUp({
           </View>
         </View>
       </ScrollView>
-      <Loader visible={loading} />
+  
     </SafeAreaView>
   );
 }

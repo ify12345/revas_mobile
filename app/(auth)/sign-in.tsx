@@ -1,9 +1,5 @@
-import React, { useEffect,useState } from "react";
-import {
-  View,
-  SafeAreaView,
-  TouchableOpacity,
-} from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, SafeAreaView, TouchableOpacity } from "react-native";
 import { HInput } from "@/components/HForm";
 import RText from "@/components/RText";
 import { useNavigation } from "@react-navigation/native";
@@ -14,22 +10,16 @@ import { useAppDispatch } from "@/redux/store";
 import { login } from "@/api/auth";
 import Toast from "react-native-toast-message";
 import { router } from "expo-router";
+import Loader from "@/components/loader";
+import { LoginPayload } from "@/types/api";
 
-
-
-
-
-
-
-export default function SignIn(){
-  const navigation: any = useNavigation();
-  
+export default function SignIn() {
   const [isChecked, setIsChecked] = useState(true);
 
   const [inputDisabled, setInputDisabled] = useState(false);
 
   const setCheckboxVal = (val: Boolean) => {
-     setIsChecked(!val);
+    setIsChecked(!val);
   };
 
   const handleToggleCheckbox = () => {
@@ -39,39 +29,40 @@ export default function SignIn(){
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [userData, setUserData] = React.useState({
-    email: "",
+    companyemail: "",
     password: "",
-});
+  });
 
-useEffect(() => {
-  if (userData.email && userData.password) {
+  useEffect(() => {
+    if (userData.companyemail && userData.password) {
       setDisabled(false);
-  } else {
+    } else {
       setDisabled(true);
-  }
-}, [userData]);
+    }
+  }, [userData]);
 
-const dispatch = useAppDispatch()
-const handleSubmit = async () => {
- 
-  setLoading(true)
-  console.log(userData);
-  
-  dispatch(login(userData))
-  .then(() => {
-    setLoading(false)
-    navigation.navigate('BottomTab')
-  })
-  .catch(err => {
-    setLoading(false)
-    console.log(err)
-    Toast.show({
-      type: 'error',
-      props: {message: err?.msg}
+  const dispatch = useAppDispatch();
+
+  function handleSubmit({ }) {
+    console.log("login details:",userData);
+    
+    setLoading(true)
+    dispatch(login(userData))
+    .unwrap()
+    .then(() => {
+      setLoading(false)
+      router.push("/verification")
     })
-  })
-};
-
+    .catch((err) => {
+      setLoading(false)
+      Toast.show({
+        type: 'error',
+        props: {message: err?.msg}
+      })
+      console.log(err);
+      
+    })
+  }
 
   return (
     <SafeAreaView
@@ -95,35 +86,34 @@ const handleSubmit = async () => {
           </View>
 
           <HInput
-          width='100%'
-            placeholder="Enter email address"
+            width="100%"
+            placeholder="Enter companyemail address"
             label="Email Address"
             type={2}
-            textType='email'
+            textType="companyemail"
             onChangeText={(text: any) =>
               setUserData({
-                  ...userData,
-                  email: text.toLowerCase(),
+                ...userData,
+                companyemail: text.toLowerCase(),
               })
-          }
-          value={userData.email}
+            }
+            value={userData.companyemail}
           />
 
           <HInput
-            width='100%'
+            width="100%"
             placeholder="Enter password"
             label="Password"
             type={2}
             textType="password"
             onChangeText={(text: any) =>
               setUserData({
-                  ...userData,
-                  password: text,
+                ...userData,
+                password: text,
               })
-          }
-          value={userData.password}
+            }
+            value={userData.password}
           />
-          
 
           <TouchableOpacity
             style={{ justifyContent: "flex-end", flexDirection: "row" }}
@@ -156,7 +146,7 @@ const handleSubmit = async () => {
           </View>
         </View>
       </View>
+      <Loader visible={loading} />
     </SafeAreaView>
   );
-};
-
+}

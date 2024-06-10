@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Image, TouchableOpacity, SafeAreaView, View, Text } from "react-native";
+import {
+  Image,
+  TouchableOpacity,
+  SafeAreaView,
+  View,
+  Text,
+} from "react-native";
 import styles from "@/styles/Home.styles";
 import RText from "@/components/RText";
 import BackButton from "@/components/BackButton";
@@ -10,7 +16,7 @@ interface NavigationProps {
   navigation: any;
 }
 
-export default function Role(){
+export default function Role() {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
   const options = [
@@ -36,7 +42,7 @@ export default function Role(){
   };
 
   const handleContinue = () => {
-     router.push("/sign-in"); 
+    router.push("/sign-in");
   };
 
   return (
@@ -70,15 +76,20 @@ export default function Role(){
                 key={option.id}
                 style={[
                   styles.buttonFlex,
-                  selectedOption === option.id && { backgroundColor: "#6750A4", borderWidth: 0 },
+                  selectedOption === option.id && {
+                    backgroundColor: "#6750A4",
+                    borderWidth: 0,
+                  },
                 ]}
                 onPress={() => handleOptionSelect(option.id)}
               >
                 <Image source={option.image} />
-             
-                  <Text style={[selectedOption === option.id && { color: 'white' }]}>{option.text}                    
-                  </Text>
 
+                <Text
+                  style={[selectedOption === option.id && { color: "white" }]}
+                >
+                  {option.text}
+                </Text>
               </TouchableOpacity>
             ))}
           </View>
@@ -92,6 +103,4 @@ export default function Role(){
       </View>
     </SafeAreaView>
   );
-};
-
-
+}
