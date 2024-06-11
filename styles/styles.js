@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     width: '100',
     justifyContent:"space-between",
     marginHorizontal: SIZES.small,
-    alignItems:'flex-start',
+    alignItems:'center',
   },
   home2:{
     flexDirection:'row',

@@ -44,7 +44,6 @@ export enum Role {
 
 export interface RegisterResponse {
   data: {
-    profile: Profile
     token: string
   },
   message: string;
@@ -53,7 +52,6 @@ export interface RegisterResponse {
 export interface LoginResponse {
   message: string
   data: {
-    profile: Profile
     token: string
   }
 }

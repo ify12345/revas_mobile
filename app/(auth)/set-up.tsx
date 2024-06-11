@@ -1,4 +1,4 @@
-import { ScrollView, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import BackButton from "@/components/BackButton";
@@ -101,6 +101,7 @@ export default function ProfileSetup() {
           Submit
         </RText>
       </RTouchableOpacity>
+
       <Loader visible={loading} />
     </SafeAreaView>
   );

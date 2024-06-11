@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, SafeAreaView, TouchableOpacity } from "react-native";
+import { View, SafeAreaView, TouchableOpacity, Text } from "react-native";
 import { HInput } from "@/components/HForm";
 import RText from "@/components/RText";
 import { useNavigation } from "@react-navigation/native";
 import BackButton from "@/components/BackButton";
 import RTouchableOpacity from "@/components/RTouchableOpacity";
 import styles from "@/styles/Signup.style";
-import { useAppDispatch } from "@/redux/store";
+import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
 import { login } from "@/api/auth";
 import Toast from "react-native-toast-message";
 import { router } from "expo-router";
@@ -15,7 +15,7 @@ import { LoginPayload } from "@/types/api";
 
 export default function SignIn() {
   const [isChecked, setIsChecked] = useState(true);
-
+  const { user, isAuthenticated, isEmailVerified } = useAppSelector((state) => state.auth);
   const [inputDisabled, setInputDisabled] = useState(false);
 
   const setCheckboxVal = (val: Boolean) => {
@@ -51,7 +51,7 @@ export default function SignIn() {
     .unwrap()
     .then(() => {
       setLoading(false)
-      router.push("/verification")
+      router.push("/dashboard")
     })
     .catch((err) => {
       setLoading(false)
@@ -146,6 +146,7 @@ export default function SignIn() {
           </View>
         </View>
       </View>
+     
       <Loader visible={loading} />
     </SafeAreaView>
   );
