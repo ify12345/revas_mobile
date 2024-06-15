@@ -17,7 +17,7 @@ const AppNavigator = () => {
         </>
       ) : (
         <>
-         <Stack.Screen name="(tab)" options={{gestureEnabled: false}}  />
+         <Stack.Screen name="(tab)"  />
         </>
       )}
     </Stack>

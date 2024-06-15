@@ -9,11 +9,13 @@ const TabLayout = () => {
   
   return (
     <Tabs
+      
       screenOptions={{
         tabBarActiveTintColor: "black", // Set active tint color to black
         tabBarInactiveTintColor: "gray",
         headerShown: false,
         tabBarShowLabel: true,
+        
       }}
     >
       <Tabs.Screen

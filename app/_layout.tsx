@@ -19,7 +19,7 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
-    lota: require("../assets/fonts/LotaGrotesqueAlt3Regular.ttf"),
+    lota: require("@/assets/fonts/LotaGrotesqueAlt3Regular.ttf"),
   });
 
   useEffect(() => {
@@ -37,7 +37,7 @@ export default function RootLayout() {
       <PersistGate loading={null} persistor={persistor}>
         <SafeAreaProvider>
           <StatusBar backgroundColor="white" barStyle="dark-content" />
-          <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+          <ThemeProvider   value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
             <AppNavigator />
           </ThemeProvider>
           <Toast config={toastConfig} />

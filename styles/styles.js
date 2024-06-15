@@ -48,6 +48,16 @@ const styles = StyleSheet.create({
     marginHorizontal: SIZES.small,
     alignItems:'center',
   },
+  homehead:{
+      backgroundColor: "#EADDFF",
+      display:"flex",
+      flexDirection:"row",
+      alignItems:"center",
+      paddingHorizontal:9,
+      paddingVertical: 20,
+      gap:5,
+      marginHorizontal: SIZES.small,
+  },
   home2:{
     flexDirection:'row',
     width: '100',
@@ -58,12 +68,14 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   profileTopBar:{
-     marginHorizontal: 20
+     marginHorizontal: 50,
+     paddingVertical: 10
   },
   profileContainer:{
     flexDirection: "column",
     gap:SIZES.large,
-    paddingVertical:SIZES.large
+    paddingVertical:SIZES.large,
+    marginHorizontal: 10,
   },
   profileContainer1:{
     width:'100%',

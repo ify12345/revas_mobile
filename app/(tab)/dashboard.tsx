@@ -28,7 +28,7 @@ import { useAppSelector } from "@/redux/store";
 export default function DashBoard({ navigation }: any) {
   const [greeting, setGreeting] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const { user } = useAppSelector((store) => store.auth);
+  const { user, isEmailVerified } = useAppSelector((store) => store.auth);
   console.log(user);
   const handleListing = () => {
     setModalVisible(false);
@@ -100,7 +100,7 @@ export default function DashBoard({ navigation }: any) {
       flex: 1,
       flexDirection: "column",
       gap: 20,
-      backgroundColor: "rgba(105, 105, 105, 0.5)",
+      backgroundColor: "rgba(41, 39, 40, 0.74)",
     },
     btn: {
       marginVertical: 100,
@@ -111,11 +111,22 @@ export default function DashBoard({ navigation }: any) {
     <SafeAreaView
       style={{ backgroundColor: "#FFF", flex: 1, paddingHorizontal: 10 }}
     >
+      <View style={styles.homehead}>
+        <Image
+          source={require("@/assets/images/review.png")}
+          style={{ width: 30, height: 30 }}
+        />
+        <View>
+        <RText>Your account is currently under review. </RText>
+        <RText>Click to verify your account </RText>
+        </View>
+      </View>
+
       <View style={styles.home}>
         <View>
-          <RText>{greeting}</RText>
+          <RText fontSize="16">{greeting}</RText>
 
-          <RText fontSize="24">{user.firstname}</RText>
+          <RText fontSize="24">{user.firstname}{user.lastname}</RText>
         </View>
 
         <RTouchableOpacity>
@@ -237,10 +248,10 @@ export default function DashBoard({ navigation }: any) {
           <View style={styless.modalView}>
             <TouchableOpacity
               onPress={() => handleClose()}
-              hitSlop={20}
+              hitSlop={90}
               style={styless.btn}
             >
-              <RText color="blue">Cancel</RText>
+              <CloseSvg color="white" height="80px" />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={handleListing}

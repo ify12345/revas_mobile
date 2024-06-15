@@ -1,13 +1,13 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, SafeAreaView,TouchableOpacity } from 'react-native'
 import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
+
 import RText from '@/components/RText'
 import { BuildingOfficeIcon, ChevronLeftIcon, ChevronRightIcon, CreditCardIcon, DocumentIcon, DocumentTextIcon, UserCircleIcon } from 'react-native-heroicons/solid'
 import styles from '@/styles/styles'
 import RTouchableOpacity from '@/components/RTouchableOpacity';
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+
 
 export default function Profile() {
   const navigation = useNavigation();
@@ -20,13 +20,13 @@ export default function Profile() {
     <SafeAreaView
     style={{
          flex: 1,
-         flexDirection: "column",
-         padding: 10,
-         backgroundColor:"white"
+         flexDirection: "column", 
+         backgroundColor:"white",
+         paddingHorizontal: 50
        }}
      >
        <View style={styles.profileTopBar}>
-         <RText fontSize='14'>My Account</RText>
+         <RText fontSize='18'>My Account</RText>
        </View>
 
        <View style={styles.profileContainer}>
@@ -36,7 +36,7 @@ export default function Profile() {
             <View style={styles.profileContainer2}>
                <UserCircleIcon color="gray" size={30} />
                <View style={styles.userInfo}>
-                <RText fontSize='12' color='black'>{user.firstname} {user.lastname}</RText>
+                <RText fontSize='18' color='black'>{user.firstname} {user.lastname}</RText>
                 <RText fontSize='10' color='gray'>Profile details</RText>
                </View>
             </View>
