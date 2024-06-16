@@ -117,8 +117,8 @@ export default function DashBoard({ navigation }: any) {
           style={{ width: 30, height: 30 }}
         />
         <View>
-        <RText>Your account is currently under review. </RText>
-        <RText>Click to verify your account </RText>
+          <RText>Your account is currently under review. </RText>
+          <RText>Click to verify your account </RText>
         </View>
       </View>
 
@@ -126,7 +126,10 @@ export default function DashBoard({ navigation }: any) {
         <View>
           <RText fontSize="16">{greeting}</RText>
 
-          <RText fontSize="24">{user.firstname}{user.lastname}</RText>
+          <RText fontSize="24">
+            {user.firstname}
+            {user.lastname}
+          </RText>
         </View>
 
         <RTouchableOpacity>
