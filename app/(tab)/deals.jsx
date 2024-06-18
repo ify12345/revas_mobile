@@ -4,8 +4,8 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 
 export default function Deals() {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'white', paddingHorizontal: 20 }}>
-        
+    <SafeAreaView className="flex flex-1">
+        <Text className="text-gray-500 text-4xl">HI</Text>
     </SafeAreaView>
   )
 }

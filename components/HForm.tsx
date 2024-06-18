@@ -43,16 +43,13 @@ interface _checkbox {
   checked?: boolean;
   setChecked?: any;
 }
-
-
-
-
-
-
-
-
-
-
+interface DropdownProps {
+  label: string;
+  options: string[];
+  onSelect: (option: string) => void;
+  selectedOption: string | null;
+  width: number | string;
+}
 
 
 
@@ -152,6 +149,54 @@ const HCheckbox = (props: _checkbox) => {
   );
 };
 
+
+
+const HDropdown: React.FC<DropdownProps> = ({
+  label,
+  options,
+  onSelect,
+  selectedOption,
+  width,
+}) => {
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const handleSelect = (option: string) => {
+    onSelect(option);
+    setShowDropdown(false);
+  };
+
+  return (
+    <View style={{ width: width }}>
+      <HText fontSize="10" fontWeight="semibold" textStyle={styles.label}>
+        {label}
+      </HText>
+      <TouchableOpacity
+        style={styles.dropdownContainer}
+        onPress={() => setShowDropdown(!showDropdown)}
+      >
+        <Text style={styles.selectedOption}>
+          {selectedOption || 'Select an option'}
+        </Text>
+        <ChevronDownIcon color="#667185" width={20} />
+      </TouchableOpacity>
+
+      <Modal visible={showDropdown} transparent={true} animationType="slide">
+        <View style={styles.modalContainer}>
+          <FlatList
+            data={options}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <TouchableOpacity onPress={() => handleSelect(item)}>
+                <Text style={styles.option}>{item}</Text>
+              </TouchableOpacity>
+            )}
+          />
+        </View>
+      </Modal>
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
  
   inputContainer: {
@@ -232,6 +277,56 @@ const styles = StyleSheet.create({
   placeholer: {
     fontSize: 10,
   },
+  dropdownContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#D0D5DD',
+    height: 48,
+    borderRadius: 8,
+    paddingLeft: 10,
+    paddingRight: 10,
+    shadowColor: '#f0f0f0',
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 5,
+    position: 'relative',
+    zIndex: 0,
+  },
+  selectedOption: {
+    flex: 1,
+    fontSize: 14,
+    paddingHorizontal: 10,
+    color:"gray"
+  },
+  modalContainer: {
+    position: 'absolute',
+    top: "46%",
+    width: '95%',
+    justifyContent:"center",
+    marginLeft: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginRight: 10,
+    display:"flex",
+    backgroundColor: '#fff',
+    elevation: 5,
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  option: {
+    padding: 10,
+    fontSize: 14,
+    borderBottomWidth: 1,
+    borderBottomColor: '#D0D5DD',
+  },
+  label: {
+    lineHeight: 20,
+    marginBottom: 5,
+  },
 });
 
-export { HSearchInput, HInput, HCheckbox, };
+export { HSearchInput, HInput, HCheckbox,HDropdown };

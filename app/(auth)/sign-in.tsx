@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, SafeAreaView, TouchableOpacity, Text } from "react-native";
 import { HInput } from "@/components/HForm";
 import RText from "@/components/RText";
@@ -6,32 +6,21 @@ import { useNavigation } from "@react-navigation/native";
 import BackButton from "@/components/BackButton";
 import RTouchableOpacity from "@/components/RTouchableOpacity";
 import styles from "@/styles/Signup.style";
-import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
-import { login } from "@/api/auth";
 import Toast from "react-native-toast-message";
 import { router } from "expo-router";
 import Loader from "@/components/loader";
-import { LoginPayload } from "@/types/api";
+import { AuthContext } from "@/context/AuthContext";
 
 export default function SignIn() {
   const [isChecked, setIsChecked] = useState(true);
-  const { user, isAuthenticated, isEmailVerified } = useAppSelector((state) => state.auth);
-  const [inputDisabled, setInputDisabled] = useState(false);
-
-  const setCheckboxVal = (val: Boolean) => {
-    setIsChecked(!val);
-  };
-
-  const handleToggleCheckbox = () => {
-    setIsChecked(!isChecked);
-  };
-
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
-  const [userData, setUserData] = React.useState({
+  const [userData, setUserData] = useState({
     companyemail: "",
     password: "",
   });
+
+  const { isLoading, login } = useContext(AuthContext);
 
   useEffect(() => {
     if (userData.companyemail && userData.password) {
@@ -41,28 +30,22 @@ export default function SignIn() {
     }
   }, [userData]);
 
-  const dispatch = useAppDispatch();
-
-  function handleSubmit({ }) {
-    console.log("login details:",userData);
-    
-    setLoading(true)
-    dispatch(login(userData))
-    .unwrap()
-    .then(() => {
-      setLoading(false)
-      router.push("/dashboard")
-    })
-    .catch((err) => {
-      setLoading(false)
+  const handleSubmit = async () => {
+    setLoading(true);
+    try {
+      const res = await login(userData);
+      if (res) {
+        router.replace("/dashboard");
+      }
+    } catch (error) {
       Toast.show({
-        type: 'error',
-        props: {message: err?.msg}
-      })
-      console.log(err);
-      
-    })
-  }
+        type: "error",
+        text1: "Login error",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <SafeAreaView
@@ -87,11 +70,11 @@ export default function SignIn() {
 
           <HInput
             width="100%"
-            placeholder="Enter companyemail address"
+            placeholder="Enter company email address"
             label="Email Address"
             type={2}
             textType="companyemail"
-            onChangeText={(text: any) =>
+            onChangeText={(text:any) =>
               setUserData({
                 ...userData,
                 companyemail: text.toLowerCase(),
@@ -106,7 +89,7 @@ export default function SignIn() {
             label="Password"
             type={2}
             textType="password"
-            onChangeText={(text: any) =>
+            onChangeText={(text:any) =>
               setUserData({
                 ...userData,
                 password: text,
@@ -117,7 +100,7 @@ export default function SignIn() {
 
           <TouchableOpacity
             style={{ justifyContent: "flex-end", flexDirection: "row" }}
-            onPress={() => navigation.navigate("ForgotPasswordScreen1")}
+            onPress={() => router.push("ForgotPasswordScreen1")}
           >
             <RText color="gray" fontSize="10" fontWeight="medium">
               Forgot password?
@@ -129,7 +112,7 @@ export default function SignIn() {
             backgroundColor="black"
             disabled={disabled}
             onPress={handleSubmit}
-            loading={loading}
+            loading={isLoading}
           >
             <RText fontSize="14" color="white" fontWeight="semibold">
               Sign in
@@ -137,7 +120,7 @@ export default function SignIn() {
           </RTouchableOpacity>
 
           <View style={styles.footerContainerSignIn}>
-            <RText>Dont have an account?</RText>
+            <RText>Don't have an account?</RText>
             <TouchableOpacity onPress={() => router.push("/sign-up")}>
               <RText color="black" fontSize="10">
                 Sign Up
@@ -146,8 +129,8 @@ export default function SignIn() {
           </View>
         </View>
       </View>
-     
-      <Loader visible={loading} />
+
+      <Loader visible={isLoading} />
     </SafeAreaView>
   );
 }

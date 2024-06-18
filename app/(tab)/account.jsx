@@ -1,17 +1,17 @@
 import { View, Text, Image, SafeAreaView,TouchableOpacity } from 'react-native'
 import React from 'react'
-
+import { useGlobalContext } from "@/context/AuthContext";
 import RText from '@/components/RText'
 import { BuildingOfficeIcon, ChevronLeftIcon, ChevronRightIcon, CreditCardIcon, DocumentIcon, DocumentTextIcon, UserCircleIcon } from 'react-native-heroicons/solid'
 import styles from '@/styles/styles'
 import RTouchableOpacity from '@/components/RTouchableOpacity';
 import { useNavigation } from '@react-navigation/native'
-import { useSelector } from 'react-redux'
+
 
 
 export default function Profile() {
   const navigation = useNavigation();
-  const user = useSelector((state) => state.auth.user);
+  const { userInfo } = useGlobalContext();
   const handleReset =()=>{
     navigation.navigate('ResetPassword')
   }
@@ -36,7 +36,7 @@ export default function Profile() {
             <View style={styles.profileContainer2}>
                <UserCircleIcon color="gray" size={30} />
                <View style={styles.userInfo}>
-                <RText fontSize='18' color='black'>{user.firstname} {user.lastname}</RText>
+                <RText fontSize='18' color='black'>{userInfo.firstname} {userInfo.lastname}</RText>
                 <RText fontSize='10' color='gray'>Profile details</RText>
                </View>
             </View>

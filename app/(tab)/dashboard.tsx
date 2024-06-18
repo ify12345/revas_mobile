@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -24,15 +24,17 @@ import RText from "@/components/RText";
 import RTouchableOpacity from "@/components/RTouchableOpacity";
 import CloseSvg from "@/assets/images/CloseSvg";
 import { useAppSelector } from "@/redux/store";
+import { AuthContext, useGlobalContext } from "@/context/AuthContext";
+import { router } from "expo-router";
 
 export default function DashBoard({ navigation }: any) {
   const [greeting, setGreeting] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const { user, isEmailVerified } = useAppSelector((store) => store.auth);
-  console.log(user);
+  const { userInfo } = useGlobalContext();
+  console.log(userInfo);
   const handleListing = () => {
     setModalVisible(false);
-    navigation.navigate("Listing");
+    router.push("/listing");
   };
 
   function handleClose() {
@@ -41,7 +43,7 @@ export default function DashBoard({ navigation }: any) {
 
   const liveOrder = () => {
     setModalVisible(false);
-    navigation.navigate("LiveOrder");
+    router.push("/listing");
   };
   const marketPlace = [
     {
@@ -126,9 +128,9 @@ export default function DashBoard({ navigation }: any) {
         <View>
           <RText fontSize="16">{greeting}</RText>
 
-          <RText fontSize="24">
-            {user.firstname}
-            {user.lastname}
+          <RText fontSize="22">
+            {userInfo.firstname}
+            {userInfo.lastname}
           </RText>
         </View>
 

@@ -1,17 +1,17 @@
 import { useAppDispatch } from "@/redux/store";
 import { View, SafeAreaView, ScrollView, TouchableOpacity } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Toast from "react-native-toast-message";
 import { RootStackScreenProps } from "@/types/navigation";
 import styles from "@/styles/Signup.style";
 import BackButton from "../../components/BackButton";
 import RText from "../../components/RText";
-import { HCheckbox, HInput } from "../../components/HForm";
+import { HCheckbox, HDropdown, HInput } from "../../components/HForm";
 import RTouchableOpacity from "../../components/RTouchableOpacity";
 import { router } from "expo-router";
 import Loader from "@/components/loader";
-import { getUserDetails } from "@/redux/reducers/auth";
-
+import { SIGNUPFROMDATA } from "@/types/page";
+import {AuthContext} from "@/context/AuthContext";
 
 export default function SignUp({
   navigation,
@@ -24,7 +24,7 @@ export default function SignUp({
     setIsChecked(!val);
   };
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<SIGNUPFROMDATA | any>({
     firstname: "",
     lastname: "",
     companyemail: "",
@@ -49,18 +49,24 @@ export default function SignUp({
     );
   }, [formData, isChecked]);
 
-  const dispatch = useAppDispatch()
+  
+  const { isLoading,register } = useContext(AuthContext);
 
-
-  const handleSubmit = () => {
-    setDisabled(true);
+  const handleSubmit = async () => {
     setLoading(true);
-    console.log("Form Data:", formData);
-
-    dispatch(getUserDetails(formData))
-    router.push('/set-up')
+    const response = await register(formData);
+    if (response.success) {
+      router.push("/verification");
+    } else {
+      Toast.show({
+        type: "error",
+        text1: "Registration error",
+        text2: response.error.message,
+      });
+    }
+    setLoading(false);
   };
-
+  const roleOptions = ['CEO', 'Operation', 'Commercial Manager', 'Finance', 'Business Development'];
   return (
     <SafeAreaView
       style={{
@@ -108,18 +114,17 @@ export default function SignUp({
               }
               value={formData.lastname}
             />
-            <HInput
+            <HDropdown
               label="Role"
-              type={2}
-              width="100%"
-              placeholder="Enter role"
-              onChangeText={(text: any) =>
+              options={roleOptions}
+              onSelect={(option) =>
                 setFormData({
                   ...formData,
-                  role: text,
+                  role: option,
                 })
               }
-              value={formData.role}
+              selectedOption={formData.role}
+              width="100%"
             />
             <HInput
               width="100%"
@@ -195,7 +200,7 @@ export default function SignUp({
               backgroundColor="black"
               disabled={disabled}
               onPress={handleSubmit}
-              loading={loading}
+              loading={isLoading}
               style={styles.button}
             >
               <RText color="white">Create an account</RText>
@@ -212,7 +217,7 @@ export default function SignUp({
           </View>
         </View>
       </ScrollView>
-  
+      <Loader visible={isLoading} />
     </SafeAreaView>
   );
 }

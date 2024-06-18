@@ -4,7 +4,8 @@ import React, { useState, useRef } from "react";
 import styles from "@/styles/onboarding.style";
 import RText from "@/components/RText";
 import RTouchableOpacity from "@/components/RTouchableOpacity";
-import { Link, router } from "expo-router";
+import { Link, Redirect, router } from "expo-router";
+import { useGlobalContext } from "@/context/AuthContext";
 
 const slides = [
   {
@@ -32,6 +33,7 @@ const slides = [
 
 export default function OnboardingScreen({ navigation }: { navigation: any }) {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const { isLoggedIn, isLoading } = useGlobalContext();
   const ref = useRef<FlatList<any>>(null);
   const { height, width } = Dimensions.get("window");
 
@@ -88,12 +90,16 @@ export default function OnboardingScreen({ navigation }: { navigation: any }) {
       </View>
 
       {currentSlide === slides.length - 1 ? (
-       <Link href="/role" style={styles.links}>
-          <RText color="#fff" fontSize="14" fontWeight="medium" textStyle={styles.textCenter}>
+        <Link href="/role" style={styles.links}>
+          <RText
+            color="#fff"
+            fontSize="14"
+            fontWeight="medium"
+            textStyle={styles.textCenter}
+          >
             Get started
           </RText>
-       </Link>
-        
+        </Link>
       ) : (
         <RTouchableOpacity onPress={goNext} backgroundColor="black" width="90%">
           <RText color="#fff" fontSize="14" fontWeight="medium">
@@ -103,7 +109,7 @@ export default function OnboardingScreen({ navigation }: { navigation: any }) {
       )}
     </View>
   );
-
+  if (!isLoading && isLoggedIn) return <Redirect href="/dashboard" />;
   return (
     <SafeAreaView style={styles.generalContainer}>
       <Header />

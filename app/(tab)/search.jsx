@@ -63,6 +63,9 @@ const Search = () => {
             <RText fontSize='10' color='gray'>Clear All</RText>
           </TouchableOpacity>
         </View>
+        <View className="border-pink-600 border-spacing-3">
+            <Text>hi</Text>
+        </View>
       </View>
     </SafeAreaView>
   )
