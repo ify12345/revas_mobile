@@ -34,7 +34,7 @@ export default function DashBoard({ navigation }: any) {
   console.log(userInfo);
   const handleListing = () => {
     setModalVisible(false);
-    router.push("/listing");
+    router.push("/dashboard/listing");
   };
 
   function handleClose() {
@@ -43,7 +43,7 @@ export default function DashBoard({ navigation }: any) {
 
   const liveOrder = () => {
     setModalVisible(false);
-    router.push("/listing");
+    router.push("/dashboard/liveorder");
   };
   const marketPlace = [
     {
