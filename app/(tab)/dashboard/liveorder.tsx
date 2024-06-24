@@ -8,7 +8,7 @@ import { HDropdown, HInput } from "@/components/HForm";
 import RTouchableOpacity from "@/components/RTouchableOpacity";
 import { router } from "expo-router";
 
-const Listing = () => {
+const LiveOrder = () => {
   const [formData, setFormData] = useState({
     plastic: "",
     volume: "",
@@ -22,7 +22,7 @@ const Listing = () => {
   const volumeOptions = ["10,000", "20,000", "50,000"];
   const durationOptions = ["2days", "1hour"];
   const destinationOptions = ["Port", "Concierge"];
-  const shippingTermsOptions = ["LIVE", "frequently"];
+  const shippingTermsOptions = ["One-off", "frequently"];
 
   const goback = () => {
     router.back();
@@ -41,15 +41,8 @@ const Listing = () => {
           <Text style={{ fontSize: 25, fontWeight: 600 }}>Place Live Order</Text>
         </TouchableOpacity>
       </View>
-
       <ScrollView>
         <View style={styles.formContainer}>
-        <HInput
-            placeholder="Upload Product Image"
-            label="Upload Image"
-            type={2}
-            width={"100%"}
-          />
           <HDropdown
             placeholder="Type of Plastic"
             label={"Enter Type of Plastic"}
@@ -159,4 +152,4 @@ const localStyles = StyleSheet.create({
   },
 });
 
-export default Listing;
+export default LiveOrder;

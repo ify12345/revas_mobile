@@ -17,6 +17,16 @@ const styles = StyleSheet.create({
     gap: 4,
     marginBottom: SIZES.medium,
   },
+  phoneInputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 15,
+  },
+  countryFlag: {
+    width: 32,
+    height: 20,
+    marginHorizontal: 10,
+  },
   container: {
     flexDirection: "column",
     marginHorizontal: SIZES.medium,

@@ -1,5 +1,5 @@
 import { useAppDispatch } from "@/redux/store";
-import { View, SafeAreaView, ScrollView, TouchableOpacity } from "react-native";
+import { View, SafeAreaView, ScrollView, TouchableOpacity, Image } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
 import Toast from "react-native-toast-message";
 import { RootStackScreenProps } from "@/types/navigation";
@@ -11,14 +11,15 @@ import RTouchableOpacity from "../../components/RTouchableOpacity";
 import { router } from "expo-router";
 import Loader from "@/components/loader";
 import { SIGNUPFROMDATA } from "@/types/page";
-import {AuthContext} from "@/context/AuthContext";
+import { AuthContext } from "@/context/AuthContext";
 
-export default function SignUp({
-  navigation,
-}: RootStackScreenProps<"SignupOne">) {
+export default function SignUp({ navigation }: RootStackScreenProps<"SignupOne">) {
   const [isChecked, setIsChecked] = useState(false);
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
+  const [countries, setCountries] = useState([]);
+  const [countryOptions, setCountryOptions] = useState<string[]>([]);
+  const [selectedCountry, setSelectedCountry] = useState<any>(null);
 
   const handleToggleCheckbox = (val: Boolean) => {
     setIsChecked(!val);
@@ -31,7 +32,8 @@ export default function SignUp({
     companyname: "",
     password: "",
     phonenumber: "",
-    role: ""
+    role: "",
+    countrycode: ""
   });
 
   useEffect(() => {
@@ -44,13 +46,28 @@ export default function SignUp({
         formData.role &&
         formData.password &&
         formData.phonenumber &&
-        isChecked
+        isChecked &&
+        formData.countrycode
       )
     );
   }, [formData, isChecked]);
 
-  
-  const { isLoading,register } = useContext(AuthContext);
+  useEffect(() => {
+    fetch('https://restcountries.com/v2/all')
+      .then(response => response.json())
+      .then(data => {
+        const formattedData = data.map((country: any) => ({
+          label: `${country.name} (${country.callingCodes[0]})`,
+          value: country.callingCodes[0],
+          flag: country.flags.png,
+        }));
+        setCountries(formattedData);
+        setCountryOptions(formattedData.map((country: any) => country.label));
+      })
+      .catch(error => console.error('Error fetching countries:', error));
+  }, []);
+
+  const { isLoading, register } = useContext(AuthContext);
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -66,16 +83,11 @@ export default function SignUp({
     }
     setLoading(false);
   };
-  const roleOptions = ['CEO', 'Operation', 'Commercial Manager', 'Finance', 'Business Development'];
+
+  const roleOptions = ['buyer', 'seller', 'buyer and seller'];
+
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        flexDirection: "column",
-        justifyContent: "space-between",
-        height: "100%",
-      }}
-    >
+    <SafeAreaView style={{ flex: 1, flexDirection: "column", justifyContent: "space-between", height: "100%" }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.topBar}>
           <BackButton />
@@ -93,12 +105,7 @@ export default function SignUp({
               type={2}
               width="100%"
               placeholder="Enter full name"
-              onChangeText={(text: any) =>
-                setFormData({
-                  ...formData,
-                  firstname: text,
-                })
-              }
+              onChangeText={(text: any) => setFormData({ ...formData, firstname: text })}
               value={formData.firstname}
             />
             <HInput
@@ -106,23 +113,14 @@ export default function SignUp({
               type={2}
               width="100%"
               placeholder="Enter last name"
-              onChangeText={(text: any) =>
-                setFormData({
-                  ...formData,
-                  lastname: text,
-                })
-              }
+              onChangeText={(text: any) => setFormData({ ...formData, lastname: text })}
               value={formData.lastname}
             />
             <HDropdown
-              label="Role"
+              placeholder="Role"
+              label="Enter your role"
               options={roleOptions}
-              onSelect={(option) =>
-                setFormData({
-                  ...formData,
-                  role: option,
-                })
-              }
+              onSelect={(roleOptions) => setFormData({ ...formData, role: roleOptions })}
               selectedOption={formData.role}
               width="100%"
             />
@@ -131,12 +129,7 @@ export default function SignUp({
               label="Company Name"
               type={2}
               placeholder="Enter Company name"
-              onChangeText={(text: any) =>
-                setFormData({
-                  ...formData,
-                  companyname: text,
-                })
-              }
+              onChangeText={(text: any) => setFormData({ ...formData, companyname: text })}
               value={formData.companyname}
             />
             <HInput
@@ -144,55 +137,48 @@ export default function SignUp({
               width="100%"
               type={2}
               placeholder="Enter company email"
-              onChangeText={(text: any) =>
-                setFormData({
-                  ...formData,
-                  companyemail: text.toLowerCase(),
-                })
-              }
+              onChangeText={(text: any) => setFormData({ ...formData, companyemail: text.toLowerCase() })}
               value={formData.companyemail}
             />
-            <HInput
-              width="100%"
-              label="Phone number"
-              type={2}
-              placeholder="Enter your Phone number"
-              onChangeText={(text: any) =>
-                setFormData({
-                  ...formData,
-                  phonenumber: text,
-                })
-              }
-              value={formData.phonenumber}
-            />
+
+            <View style={styles.phoneInputContainer}>
+              <HDropdown
+                placeholder="Country Code"
+                label="Country Code"
+                options={countryOptions}
+                onSelect={(label: string) => {
+                  const country = countries.find((country: any) => country.label === label);
+                  setSelectedCountry(country);
+                  setFormData({ ...formData, countrycode: country.value, phonenumber: `+${country.value}` });
+                }}
+                selectedOption={formData.countrycode}
+                width="30%"
+              />
+              {selectedCountry && <Image source={{ uri: selectedCountry.flag }} style={styles.countryFlag} />}
+              <HInput
+                width="65%"
+                label="Phone number"
+                type={2}
+                placeholder="Enter your Phone number"
+                onChangeText={(text: any) => setFormData({ ...formData, phonenumber: `+${formData.countrycode}${text.replace(/^\+\d+/, '')}` })}
+                value={formData.phonenumber}
+              />
+            </View>
+
             <HInput
               label="Password"
               width="100%"
               type={2}
               textType="password"
               placeholder="Enter your password"
-              onChangeText={(text: any) =>
-                setFormData({
-                  ...formData,
-                  password: text,
-                })
-              }
+              onChangeText={(text: any) => setFormData({ ...formData, password: text })}
               value={formData.password}
             />
 
             <View style={styles.checkBox}>
-              <HCheckbox
-                checked={isChecked}
-                setChecked={handleToggleCheckbox}
-              />
-              <RText
-                width="80%"
-                fontSize="10"
-                fontWeight="medium"
-                color="#777777"
-              >
-                I have read and accept the company's Terms & Conditions and
-                Privacy Policy.
+              <HCheckbox checked={isChecked} setChecked={handleToggleCheckbox} />
+              <RText width="80%" fontSize="10" fontWeight="medium" color="#777777">
+                I have read and accept the company's Terms & Conditions and Privacy Policy.
               </RText>
             </View>
 
@@ -221,3 +207,4 @@ export default function SignUp({
     </SafeAreaView>
   );
 }
+

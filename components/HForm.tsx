@@ -6,6 +6,7 @@ import {
   Pressable,
   FlatList,
   TouchableOpacity,
+  ScrollView,
   Modal,
 } from "react-native";
 import React, { forwardRef, useState, FC, ReactElement, useRef } from "react";
@@ -45,6 +46,7 @@ interface _checkbox {
 }
 interface DropdownProps {
   label: string;
+  placeholder: string;
   options: string[];
   onSelect: (option: string) => void;
   selectedOption: string | null;
@@ -101,14 +103,30 @@ const HInput = (props: _iProps) => {
         </HText>
       )}
       <View style={styles.inputRow}>
-        <TextInput
+
+        {
+          textType === "phone" && (
+
+            <TextInput
+            style={type === 2 ? styles.textInput2 : styles.textInput}
+            placeholder={placeholder}
+            textContentType={textType ? textType : "none"}
+            autoCorrect={autoCorrection}
+            secureTextEntry={textType !== "password" ? false : secureEntry}
+            {...props}
+          />
+          ): (
+          <TextInput
           style={type === 2 ? styles.textInput2 : styles.textInput}
           placeholder={placeholder}
           textContentType={textType ? textType : "none"}
           autoCorrect={autoCorrection}
           secureTextEntry={textType !== "password" ? false : secureEntry}
           {...props}
-        />
+        />)
+        }
+
+      
 
         {textType === "password" && (
           <HTouchableOpacity
@@ -157,6 +175,7 @@ const HDropdown: React.FC<DropdownProps> = ({
   onSelect,
   selectedOption,
   width,
+  placeholder
 }) => {
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -168,14 +187,14 @@ const HDropdown: React.FC<DropdownProps> = ({
   return (
     <View style={{ width: width }}>
       <HText fontSize="10" fontWeight="semibold" textStyle={styles.label}>
-        {label}
+        {placeholder}
       </HText>
       <TouchableOpacity
         style={styles.dropdownContainer}
         onPress={() => setShowDropdown(!showDropdown)}
       >
         <Text style={styles.selectedOption}>
-          {selectedOption || 'Select an option'}
+          {selectedOption || `${label}`}
         </Text>
         <ChevronDownIcon color="#667185" width={20} />
       </TouchableOpacity>
@@ -301,21 +320,19 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     position: 'absolute',
-    top: "46%",
-    width: '95%',
+    bottom: 0,
+    width: '100%',
     justifyContent:"center",
-    marginLeft: 10,
     paddingLeft: 10,
     paddingRight: 10,
-    marginRight: 10,
     display:"flex",
     backgroundColor: '#fff',
-    elevation: 5,
-    borderRadius: 8,
+    borderRadius: 28,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
+    height: 300
   },
   option: {
     padding: 10,

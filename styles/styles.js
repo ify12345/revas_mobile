@@ -6,6 +6,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+  Top:{
+    borderBottomColor:"#F8F5F9",
+    borderBottomWidth:"0.4px",
+    paddingBottom: "15px"
+  },
   container1: {
     flexDirection: "column",
     // justifyContent: "space-between",
@@ -87,10 +92,25 @@ const styles = StyleSheet.create({
     
 
   },
+  profileDetailContainer1:{
+    width:'100%',
+    flexDirection:"row",
+    justifyContent:"space-between",
+    alignItems:"center",
+  },
   
   profileContainer2:{
     flexDirection:"row",
     alignItems:"center",
+    justifyContent:"center",
+    alignContent:"center",
+    gap: 15,
+    paddingBottom: 8
+  },
+  profileDetailContainer:{
+    flexDirection:"column",
+    alignItems:"center",
+    textAlign:"center",
     justifyContent:"center",
     alignContent:"center",
     gap: 15,
@@ -128,6 +148,7 @@ const styles = StyleSheet.create({
   },
   formContainer:{
      flexDirection:"column",
+     display:'flex',
      gap:20,
      paddingHorizontal:10,
      paddingVertical:30

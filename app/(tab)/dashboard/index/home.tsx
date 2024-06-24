@@ -25,13 +25,14 @@ import RTouchableOpacity from "@/components/RTouchableOpacity";
 import CloseSvg from "@/assets/images/CloseSvg";
 import { useAppSelector } from "@/redux/store";
 import { AuthContext, useGlobalContext } from "@/context/AuthContext";
-import { router } from "expo-router";
+import { Link, router } from "expo-router";
 
 export default function DashBoard({ navigation }: any) {
   const [greeting, setGreeting] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const { userInfo } = useGlobalContext();
-  console.log(userInfo);
+
+  console.log(userInfo.role);
   const handleListing = () => {
     setModalVisible(false);
     router.push("/dashboard/listing");
@@ -113,7 +114,8 @@ export default function DashBoard({ navigation }: any) {
     <SafeAreaView
       style={{ backgroundColor: "#FFF", flex: 1, paddingHorizontal: 10 }}
     >
-      <View style={styles.homehead}>
+      {userInfo.emailverified !== true ? (
+        <View style={styles.homehead}>
         <Image
           source={require("@/assets/images/review.png")}
           style={{ width: 30, height: 30 }}
@@ -123,6 +125,8 @@ export default function DashBoard({ navigation }: any) {
           <RText>Click to verify your account </RText>
         </View>
       </View>
+      ): null}
+      
 
       <View style={styles.home}>
         <View>
@@ -176,66 +180,68 @@ export default function DashBoard({ navigation }: any) {
                   })
                 }
               >
-                <View style={{ paddingVertical: 1 }}>
-                  <RText fontSize="14">{item.topic}</RText>
-                </View>
-
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Image
-                    source={item.image}
-                    style={{ width: 80, height: 80 }}
-                  />
-
-                  <View
-                    style={{
-                      flexDirection: "column",
-                      gap: 8,
-                      marginHorizontal: 20,
-                    }}
-                  >
-                    <View style={{ flexDirection: "column", gap: 2 }}>
-                      <Text style={{ color: "#79747e", fontSize: 10 }}>
-                        Type of plastics
-                      </Text>
-                      <Text style={{ fontSize: 14, fontWeight: "600" }}>
-                        {item.types}
-                      </Text>
-                    </View>
-                    <View style={{ flexDirection: "column", gap: 2 }}>
-                      <Text style={{ color: "#79747e", fontSize: 10 }}>
-                        Duration
-                      </Text>
-                      <Text style={{ fontSize: 14, fontWeight: "600" }}>
-                        {item.Duration}
-                      </Text>
-                    </View>
+                <Link href="/dashboard/detail">
+                  <View style={{ paddingVertical: 1 }}>
+                    <RText fontSize="14">{item.topic}</RText>
                   </View>
 
-                  <View
-                    style={{
-                      flexDirection: "column",
-                      gap: 8,
-                      marginHorizontal: 20,
-                    }}
-                  >
-                    <View style={{ flexDirection: "column", gap: 2 }}>
-                      <Text style={{ color: "#79747e", fontSize: 10 }}>
-                        Volume(In tones)
-                      </Text>
-                      <Text style={{ fontSize: 14, fontWeight: "600" }}>
-                        {item.volume}
-                      </Text>
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Image
+                      source={item.image}
+                      style={{ width: 80, height: 80 }}
+                    />
+
+                    <View
+                      style={{
+                        flexDirection: "column",
+                        gap: 8,
+                        marginHorizontal: 20,
+                      }}
+                    >
+                      <View style={{ flexDirection: "column", gap: 2 }}>
+                        <Text style={{ color: "#79747e", fontSize: 10 }}>
+                          Type of plastics
+                        </Text>
+                        <Text style={{ fontSize: 14, fontWeight: "600" }}>
+                          {item.types}
+                        </Text>
+                      </View>
+                      <View style={{ flexDirection: "column", gap: 2 }}>
+                        <Text style={{ color: "#79747e", fontSize: 10 }}>
+                          Duration
+                        </Text>
+                        <Text style={{ fontSize: 14, fontWeight: "600" }}>
+                          {item.Duration}
+                        </Text>
+                      </View>
                     </View>
-                    <View style={{ flexDirection: "column", gap: 2 }}>
-                      <Text style={{ color: "#79747e", fontSize: 10 }}>
-                        Price(in USD)
-                      </Text>
-                      <Text style={{ fontSize: 14, fontWeight: "600" }}>
-                        {item.Price}
-                      </Text>
+
+                    <View
+                      style={{
+                        flexDirection: "column",
+                        gap: 8,
+                        marginHorizontal: 20,
+                      }}
+                    >
+                      <View style={{ flexDirection: "column", gap: 2 }}>
+                        <Text style={{ color: "#79747e", fontSize: 10 }}>
+                          Volume(In tones)
+                        </Text>
+                        <Text style={{ fontSize: 14, fontWeight: "600" }}>
+                          {item.volume}
+                        </Text>
+                      </View>
+                      <View style={{ flexDirection: "column", gap: 2 }}>
+                        <Text style={{ color: "#79747e", fontSize: 10 }}>
+                          Price(in USD)
+                        </Text>
+                        <Text style={{ fontSize: 14, fontWeight: "600" }}>
+                          {item.Price}
+                        </Text>
+                      </View>
                     </View>
                   </View>
-                </View>
+                </Link>
               </TouchableOpacity>
             );
           })}
@@ -258,39 +264,42 @@ export default function DashBoard({ navigation }: any) {
             >
               <CloseSvg color="white" height="80px" />
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={handleListing}
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                position: "absolute",
-                bottom: 200,
-                right: 20,
-                gap: 4,
-              }}
-            >
-              <RText color="white" fontSize="10">
-                Create listing
-              </RText>
-              <ClipboardDocumentListIcon color="white" size={30} />
-            </TouchableOpacity>
 
+            {userInfo.role === "Buyer " || userInfo.role === "Buyer and Seller" ? (
+              <TouchableOpacity
+                onPress={liveOrder}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  position: "absolute",
+                  bottom: 160,
+                  right: 20,
+                  gap: 4,
+                }}
+              >
+                <RText color="white" fontSize="10">
+                  Place live order
+                </RText>
+                <ShoppingCartIcon color="white" size={30} />
+              </TouchableOpacity>
+            ) : null}
+           
             <TouchableOpacity
-              onPress={liveOrder}
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                position: "absolute",
-                bottom: 160,
-                right: 20,
-                gap: 4,
-              }}
-            >
-              <RText color="white" fontSize="10">
-                Place live order
-              </RText>
-              <ShoppingCartIcon color="white" size={30} />
-            </TouchableOpacity>
+                onPress={handleListing}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  position: "absolute",
+                  bottom: 200,
+                  right: 20,
+                  gap: 4,
+                }}
+              >
+                <RText color="white" fontSize="10">
+                  Create listing
+                </RText>
+                <ClipboardDocumentListIcon color="white" size={30} />
+              </TouchableOpacity>
           </View>
         </View>
       </Modal>

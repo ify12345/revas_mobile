@@ -6,6 +6,7 @@ import { BuildingOfficeIcon, ChevronLeftIcon, ChevronRightIcon, CreditCardIcon, 
 import styles from '@/styles/styles'
 import RTouchableOpacity from '@/components/RTouchableOpacity';
 import { useNavigation } from '@react-navigation/native'
+import { router } from 'expo-router';
 
 
 
@@ -13,7 +14,7 @@ export default function Profile() {
   const navigation = useNavigation();
   const { userInfo } = useGlobalContext();
   const handleReset =()=>{
-    navigation.navigate('ResetPassword')
+    router.push('/account/editprofile')
   }
 
   return (
