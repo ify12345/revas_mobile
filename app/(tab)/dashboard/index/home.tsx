@@ -16,6 +16,7 @@ import {
   BellIcon,
   ChevronRightIcon,
   ClipboardDocumentListIcon,
+  MagnifyingGlassIcon,
   PlusCircleIcon,
   ShoppingCartIcon,
 } from "react-native-heroicons/solid";
@@ -130,21 +131,27 @@ export default function DashBoard({ navigation }: any) {
 
       <View style={styles.home}>
         <View>
-          <RText fontSize="16">{greeting}</RText>
+          <RText textStyle={{fontWeight:300}} fontSize="16">{greeting}</RText>
 
-          <RText fontSize="22">
+          <RText textStyle={{fontWeight:600}} fontSize="24" color="black">
             {userInfo.firstname}
-            {userInfo.lastname}
+            {userInfo.lastname} 
           </RText>
         </View>
 
-        <RTouchableOpacity>
-          <BellIcon color="black" />
-        </RTouchableOpacity>
+        <View style={{flexDirection:"row"}}>
+          <RTouchableOpacity
+          onPress={router.push("/")}>
+            <MagnifyingGlassIcon color="#667185"  />
+          </RTouchableOpacity>
+          <RTouchableOpacity>
+            <BellIcon color="black" />
+          </RTouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.home2}>
-        <RText fontWeight="bold" fontSize="14" color="#4A4B4d">
+        <RText textStyle={{fontWeight:600}} fontSize="20" color="black">
           Market Place
         </RText>
 
@@ -154,7 +161,7 @@ export default function DashBoard({ navigation }: any) {
           <RText color="gray" fontSize="10">
             see all
           </RText>
-          <ChevronRightIcon size={10} />
+          <ChevronRightIcon size={10} color="black" />
         </TouchableOpacity>
       </View>
 

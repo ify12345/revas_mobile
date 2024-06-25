@@ -1,6 +1,6 @@
 import React from "react";
 import { Tabs } from "expo-router";
-import { ChatBubbleBottomCenterIcon, HomeIcon, MagnifyingGlassIcon, ShoppingBagIcon, UserIcon } from "react-native-heroicons/solid";
+import { ChatBubbleBottomCenterIcon, HomeIcon, MagnifyingGlassIcon, ShoppingBagIcon, UserIcon, WalletIcon } from "react-native-heroicons/solid";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { Colors } from "@/constants/Colors";
 
@@ -28,15 +28,6 @@ const TabLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="search"
-        options={{
-          title: 'Search',
-          tabBarIcon: ({ focused }) => (
-            <MagnifyingGlassIcon size={24} color={focused ? "black" : "gray"} />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="deals"
         options={{
           title: 'Deals',
@@ -51,6 +42,15 @@ const TabLayout = () => {
           title: 'Requests',
           tabBarIcon: ({ focused }) => (
             <ChatBubbleBottomCenterIcon size={24} color={focused ? "black" : "gray"} />
+          ),
+        }}
+      />
+        <Tabs.Screen
+        name="wallets"
+        options={{
+          title: 'Wallet',
+          tabBarIcon: ({ focused }) => (
+            <WalletIcon size={24} color={focused ? "black" : "gray"} />
           ),
         }}
       />
