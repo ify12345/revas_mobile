@@ -6,6 +6,7 @@ const DashBoard = () => {
   return (
    <Stack>
     <Stack.Screen name="index" options={{ headerShown: false }}  />
+    <Stack.Screen name="search" options={{ headerShown: false }}  />
     <Stack.Screen name="listing" options={{ headerShown: false }}  />
     <Stack.Screen name="liveorder" options={{ headerShown: false }}  />
    </Stack>

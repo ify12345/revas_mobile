@@ -47,6 +47,9 @@ export default function DashBoard({ navigation }: any) {
     setModalVisible(false);
     router.push("/dashboard/liveorder");
   };
+  const searchRoute = ()=>{
+    router.push("/dashboard/search")
+  }
   const marketPlace = [
     {
       id: "1",
@@ -141,7 +144,7 @@ export default function DashBoard({ navigation }: any) {
 
         <View style={{flexDirection:"row"}}>
           <RTouchableOpacity
-          onPress={router.push("/")}>
+        onPress={searchRoute}>
             <MagnifyingGlassIcon color="#667185"  />
           </RTouchableOpacity>
           <RTouchableOpacity>
