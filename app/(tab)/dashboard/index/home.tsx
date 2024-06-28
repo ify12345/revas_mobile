@@ -162,7 +162,7 @@ export default function DashBoard({ navigation }: any) {
           style={{ flexDirection: "row", gap: 3, alignItems: "center" }}
         >
           <RText color="gray" fontSize="10">
-            see all
+            see all 
           </RText>
           <ChevronRightIcon size={10} color="black" />
         </TouchableOpacity>
