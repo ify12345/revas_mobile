@@ -195,7 +195,7 @@ export default function DashBoard({ navigation }: any) {
                     <RText fontSize="14">{item.topic}</RText>
                   </View>
 
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <View style={{ flexDirection: "row", alignItems: "center", }}>
                     <Image
                       source={item.image}
                       style={{ width: 80, height: 80 }}
