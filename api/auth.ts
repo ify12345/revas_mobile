@@ -25,7 +25,7 @@ export const getUser = createAsyncThunk(
   "auth/get-user",
   async (_, thunkAPI) => {
     const Axios = await AxiosBase();
-    return apiRequest(Axios.get("/v1/profile"), thunkAPI);
+    return apiRequest(Axios.get("/v1/profiles"), thunkAPI);
   }
 );
 
