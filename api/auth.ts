@@ -40,6 +40,7 @@ export const logout = createAsyncThunk(
   "auth/logout",
   async (payload, thunkAPI) => {
     const Axios = await AxiosBase();
+    
     return apiRequest(Axios.post("/auths/logout", payload), thunkAPI);
   }
 );
