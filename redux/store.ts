@@ -11,20 +11,36 @@ import {
   PAUSE,
   PURGE,
   REGISTER
-} from 'redux-persist';
+} from 'redux-persist'
+import languageReducer from './reducers/language'
 import authReducer from './reducers/auth'
-
+import overviewReducer from './reducers/overview'
+import appointmentReducer from './reducers/appointment'
+import notificationReducer from './reducers/notification'
+import earningReducer from './reducers/earning'
+import scheduleReducer from './reducers/schedule'
+import outletReducer from './reducers/outlet'
+import bankReducer from './reducers/bank'
+import brandReducer from './reducers/brand'
 
 const asyncPersistConfig = {
   key: 'main',
   storage: AsyncStorage
 }
 
-
+const persistedLangReducer = persistReducer(asyncPersistConfig, languageReducer)
 const persistedAuthReducer = persistReducer(asyncPersistConfig, authReducer)
 const reducers = combineReducers({
+  language: persistedLangReducer,
   auth: persistedAuthReducer,
-
+  overview: overviewReducer,
+  appointment: appointmentReducer,
+  notification: notificationReducer,
+  earning: earningReducer,
+  schedule: scheduleReducer,
+  outlet: outletReducer,
+  bank: bankReducer,
+  brand: brandReducer
 })
 
 const store = configureStore({

@@ -8,7 +8,7 @@
     "scheme": "revas",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/revas-splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

@@ -1,46 +1,95 @@
 /* eslint-disable import/no-cycle */
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { AsyncThunkConfig, ForgotPasswordPayload, GoogleAuthPayload, LoginPayload, RegisterPayload, ResetPasswordPayload, VerifyAccountPayload } from "@/types/api";
+import { GetCountries, GetUserResponse, LoginResponse, RegisterResponse, RequestResponse, VerifyAccountResponse } from "@/types/apiResponse";
 import AxiosBase from "./axios";
+import apiRequest from "./request";
 
-// Helper function to handle API requests and error handling
-const apiRequest = async (request, thunkAPI) => {
-  try {
-    const response = await request;
-    return response.data;
-  } catch (error) {
-    // Reject with a standardized error message
-    return thunkAPI.rejectWithValue(error.response?.data || error.message);
-  }
-};
+export const getCountries = createAsyncThunk<GetCountries, void, AsyncThunkConfig>
+		("auth/countries",
+				async (_, thunkAPI) => {
+						const Axios = await AxiosBase()
+						return apiRequest(Axios.get('/v1/onboarding/countries'), thunkAPI)
+				}
+		)
+export const register = createAsyncThunk<RegisterResponse, RegisterPayload, AsyncThunkConfig>
+		("auth/register",
+				async (payload, thunkAPI) => {
+						const Axios = await AxiosBase();
+						return apiRequest(Axios.post('/auths/signup', payload),
+								thunkAPI, 'auth')
+				}
+		);
 
-export const register = createAsyncThunk(
-  "auth/register",
-  async (formData, thunkAPI) => {
-    const Axios = await AxiosBase();
-    return apiRequest(Axios.post("/auths/signup", formData), thunkAPI);
-  }
+export const login = createAsyncThunk<LoginResponse, LoginPayload, AsyncThunkConfig>
+("auth/login",
+				async (payload, thunkAPI) => {
+						const Axios = await AxiosBase();
+						return apiRequest(Axios.post('/auths/login', payload),
+								thunkAPI, 'auth')
+				}
 );
 
-export const getUser = createAsyncThunk(
-  "auth/get-user",
-  async (_, thunkAPI) => {
-    const Axios = await AxiosBase();
-    return apiRequest(Axios.get("/v1/profiles"), thunkAPI);
-  }
-);
+export const continueWithGoogle = createAsyncThunk<LoginResponse, GoogleAuthPayload, AsyncThunkConfig>
+		("auth/google",
+				async (payload, thunkAPI) => {
+						const Axios = await AxiosBase();
+						return apiRequest(Axios.post('/v1/auth/google/login', payload),
+								thunkAPI, 'auth')
+				}
+		)
 
-export const login = createAsyncThunk(
-  "auth/login",
-  async (payload, thunkAPI) => {
-    const Axios = await AxiosBase();
-    return apiRequest(Axios.post("/auths/login", payload), thunkAPI);
-  }
-);
-export const logout = createAsyncThunk(
-  "auth/logout",
-  async (payload, thunkAPI) => {
-    const Axios = await AxiosBase();
-    
-    return apiRequest(Axios.post("/auths/logout", payload), thunkAPI);
-  }
-);
+export const accountVerification = createAsyncThunk<VerifyAccountResponse, VerifyAccountPayload, AsyncThunkConfig>
+				("auth/verify-account",
+						async (payload, thunkAPI) => {
+								const Axios = await AxiosBase();
+								return apiRequest(Axios.post('/auths/verify-email', payload),
+										thunkAPI)
+						}
+				)
+
+export const resendOtp = createAsyncThunk<RequestResponse, void, AsyncThunkConfig>
+		('auth/resend-otp',
+				async (_, thunkAPI) => {
+						const Axios = await AxiosBase();
+						return apiRequest(Axios.post('/v1/auth/resend-verification-code'),
+								thunkAPI)
+				}
+		)
+
+export const forgotPassword = createAsyncThunk<RequestResponse, ForgotPasswordPayload, AsyncThunkConfig>
+		('auth/forgot-password',
+				async (payload, thunkAPI) => {
+						const Axios = await AxiosBase();
+						return apiRequest(Axios.post('/v1/auth/password/forgot', payload),
+								thunkAPI)
+				}
+		)
+
+export const resetPassword = createAsyncThunk<RequestResponse, ResetPasswordPayload, AsyncThunkConfig>
+	("auth/reset-password",
+		async (payload, thunkAPI) => {
+			const Axios = await AxiosBase();
+				return apiRequest(Axios.post('/v1/auth/password/reset', payload),
+					thunkAPI)
+		}
+	)
+
+export const logOut = createAsyncThunk<RequestResponse, void, AsyncThunkConfig>
+	("auth/logout",
+		async (_, thunkAPI) => {
+			const Axios = await AxiosBase();
+			return apiRequest(Axios.post('/auths/logout'),
+				thunkAPI)
+		}
+	)
+
+export const getUser = createAsyncThunk<GetUserResponse, void, AsyncThunkConfig>
+	('auth/get-user', 
+		async (_, thunkAPI) => {
+			const Axios = await AxiosBase()
+			return apiRequest(Axios.get('/v1/profile'), thunkAPI)
+		}
+	)
+		
+
