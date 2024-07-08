@@ -20,7 +20,7 @@ import RTouchableOpacity from "@/components/RTouchableOpacity";
 import { router } from "expo-router";
 import Loader from "@/components/loader";
 import { SIGNUPFROMDATA } from "@/types/page";
-import { AuthContext } from "@/context/AuthContext";
+
 
 export default function SignUp({
   navigation,
@@ -54,22 +54,22 @@ export default function SignUp({
   }, [formData, isChecked]);
 
 
-  const { isLoading, register } = useContext(AuthContext);
 
-  const handleSubmit = async () => {
-    setLoading(true);
-    const response = await register(formData);
-    if (response.success) {
-      router.push("/verification");
-    } else {
-      Toast.show({
-        type: "error",
-        text1: "Registration error",
-        text2: response.error.message,
-      });
-    }
-    setLoading(false);
-  };
+
+  // const handleSubmit = async () => {
+  //   setLoading(true);
+
+  //   if (response.success) {
+  //     router.push("/verification");
+  //   } else {
+  //     Toast.show({
+  //       type: "error",
+  //       text1: "Registration error",
+  //       text2: response.error.message,
+  //     });
+  //   }
+  //   setLoading(false);
+  // };
 
   const roleOptions = ["buyer", "seller", "buyer and seller"];
 
@@ -149,7 +149,7 @@ export default function SignUp({
               type={2}
               textType="password"
               placeholder="Enter your password"
-              onChangeText={(text) =>
+              onChangeText={(text:string) =>
                 setFormData({ ...formData, password: text })
               }
               value={formData.password}
@@ -158,7 +158,7 @@ export default function SignUp({
             <View style={styles.checkBox}>
               <HCheckbox
                 checked={isChecked}
-                setChecked={(val) => setIsChecked(!val)}
+                setChecked={(val:any) => setIsChecked(!val)}
               />
               <RText
                 width="80%"
@@ -174,8 +174,8 @@ export default function SignUp({
             <RTouchableOpacity
               backgroundColor="black"
               disabled={disabled}
-              onPress={handleSubmit}
-              loading={isLoading}
+              // onPress={handleSubmit}
+              loading={loading}
               style={styles.button}
             >
               <RText color="white">Create an account</RText>
@@ -192,7 +192,7 @@ export default function SignUp({
           </View>
         </View>
       </ScrollView>
-      <Loader visible={isLoading} />
+      <Loader visible={loading} />
     </SafeAreaView>
   );
 }

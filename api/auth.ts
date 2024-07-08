@@ -5,13 +5,6 @@ import { GetCountries, GetUserResponse, LoginResponse, RegisterResponse, Request
 import AxiosBase from "./axios";
 import apiRequest from "./request";
 
-export const getCountries = createAsyncThunk<GetCountries, void, AsyncThunkConfig>
-		("auth/countries",
-				async (_, thunkAPI) => {
-						const Axios = await AxiosBase()
-						return apiRequest(Axios.get('/v1/onboarding/countries'), thunkAPI)
-				}
-		)
 export const register = createAsyncThunk<RegisterResponse, RegisterPayload, AsyncThunkConfig>
 		("auth/register",
 				async (payload, thunkAPI) => {
@@ -30,14 +23,6 @@ export const login = createAsyncThunk<LoginResponse, LoginPayload, AsyncThunkCon
 				}
 );
 
-export const continueWithGoogle = createAsyncThunk<LoginResponse, GoogleAuthPayload, AsyncThunkConfig>
-		("auth/google",
-				async (payload, thunkAPI) => {
-						const Axios = await AxiosBase();
-						return apiRequest(Axios.post('/v1/auth/google/login', payload),
-								thunkAPI, 'auth')
-				}
-		)
 
 export const accountVerification = createAsyncThunk<VerifyAccountResponse, VerifyAccountPayload, AsyncThunkConfig>
 				("auth/verify-account",

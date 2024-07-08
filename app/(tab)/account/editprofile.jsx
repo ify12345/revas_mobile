@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
-import { useGlobalContext } from "@/context/AuthContext";
 import RText from "@/components/RText";
 import {
   BuildingOfficeIcon,
@@ -24,8 +23,7 @@ import { Link } from "expo-router";
 
 export default function ProfileEdit() {
   const navigation = useNavigation();
-  const { userInfo } = useGlobalContext();
-
+ 
   return (
     <SafeAreaView
       style={{
@@ -63,7 +61,7 @@ export default function ProfileEdit() {
                 Full Name
               </RText>
               <RText fontSize="18" color="black">
-                {userInfo.firstname} {userInfo.lastname}
+               
               </RText>
             </View>
           </View>

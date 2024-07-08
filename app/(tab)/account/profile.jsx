@@ -1,6 +1,5 @@
 import { View, Text, Image, SafeAreaView,TouchableOpacity } from 'react-native'
 import React from 'react'
-import { useGlobalContext } from "@/context/AuthContext";
 import RText from '@/components/RText'
 import { BuildingOfficeIcon, ChevronLeftIcon, ChevronRightIcon, CreditCardIcon, DocumentIcon, DocumentTextIcon, UserCircleIcon } from 'react-native-heroicons/solid'
 import styles from '@/styles/styles'
@@ -12,7 +11,6 @@ import { router } from 'expo-router';
 
 export default function Profile() {
   const navigation = useNavigation();
-  const { userInfo } = useGlobalContext();
   const handleReset =()=>{
     router.push('/account/editprofile')
   }
@@ -37,7 +35,7 @@ export default function Profile() {
             <View style={styles.profileContainer2}>
                <UserCircleIcon color="gray" size={30} />
                <View style={styles.userInfo}>
-                <RText fontSize='18' color='black'>{userInfo.firstname} {userInfo.lastname}</RText>
+                <RText fontSize='18' color='black'></RText>
                 <RText fontSize='10' color='gray'>Profile details</RText>
                </View>
             </View>

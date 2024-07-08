@@ -2,14 +2,13 @@ import React, { useContext, useEffect, useState } from "react";
 import { View, SafeAreaView, TouchableOpacity, Text } from "react-native";
 import { HInput } from "@/components/HForm";
 import RText from "@/components/RText";
-import { useNavigation } from "@react-navigation/native";
 import BackButton from "@/components/BackButton";
 import RTouchableOpacity from "@/components/RTouchableOpacity";
 import styles from "@/styles/Signup.style";
 import Toast from "react-native-toast-message";
 import { router } from "expo-router";
 import Loader from "@/components/loader";
-import { AuthContext } from "@/context/AuthContext";
+
 
 export default function SignIn() {
   const [isChecked, setIsChecked] = useState(true);
@@ -20,7 +19,7 @@ export default function SignIn() {
     password: "",
   });
 
-  const { isLoading, login } = useContext(AuthContext);
+  
 
   useEffect(() => {
     if (userData.companyemail && userData.password) {
@@ -33,10 +32,10 @@ export default function SignIn() {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const res = await login(userData);
-      if (res) {
-        router.replace("/dashboard");
-      }
+
+      // if (res) {
+      //   router.replace("/dashboard");
+      // }
     } catch (error) {
       Toast.show({
         type: "error",
@@ -112,7 +111,7 @@ export default function SignIn() {
             backgroundColor="black"
             disabled={disabled}
             onPress={handleSubmit}
-            loading={isLoading}
+            loading={loading}
           >
             <RText fontSize="14" color="white" fontWeight="semibold">
               Sign in
@@ -130,7 +129,7 @@ export default function SignIn() {
         </View>
       </View>
 
-      <Loader visible={isLoading} />
+      <Loader visible={loading} />
     </SafeAreaView>
   );
 }

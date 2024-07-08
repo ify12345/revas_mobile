@@ -1,7 +1,7 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-param-reassign */
 import {PayloadAction, createSlice} from '@reduxjs/toolkit'
-import { continueWithGoogle, getUser, login, register } from '@/api/auth';
+import {  getUser, login, register } from '@/api/auth';
 import { updateProfile, updateProfilePhoto } from '@/api/profile';
 import { User } from '@/types';
 
@@ -48,12 +48,6 @@ export const authSlice = createSlice({
         state.isEmailVerified = false
       })
       .addCase(login.fulfilled, (state, {payload}) => {
-        state.user = payload.data.profile
-        state.isAuthenticated = true
-        state.isEmailVerified = payload.data.profile.hasVerifiedEmail
-      })
-    builder
-      .addCase(continueWithGoogle.fulfilled, (state, {payload}) => {
         state.user = payload.data.profile
         state.isAuthenticated = true
         state.isEmailVerified = payload.data.profile.hasVerifiedEmail

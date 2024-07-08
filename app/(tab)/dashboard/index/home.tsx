@@ -25,15 +25,14 @@ import RText from "@/components/RText";
 import RTouchableOpacity from "@/components/RTouchableOpacity";
 import CloseSvg from "@/assets/images/CloseSvg";
 import { useAppSelector } from "@/redux/store";
-import { AuthContext, useGlobalContext } from "@/context/AuthContext";
 import { Link, router } from "expo-router";
 
 export default function DashBoard({ navigation }: any) {
   const [greeting, setGreeting] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const { userInfo } = useGlobalContext();
 
-  console.log(userInfo.role);
+
+ 
   const handleListing = () => {
     setModalVisible(false);
     router.push("/dashboard/listing");
@@ -118,7 +117,7 @@ export default function DashBoard({ navigation }: any) {
     <SafeAreaView
       style={{ backgroundColor: "#FFF", flex: 1, paddingHorizontal: 10 }}
     >
-      {userInfo.emailverified !== true ? (
+
         <View style={styles.homehead}>
         <Image
           source={require("@/assets/images/review.png")}
@@ -129,16 +128,15 @@ export default function DashBoard({ navigation }: any) {
           <RText>Click to verify your account </RText>
         </View>
       </View>
-      ): null}
+  
       
 
-      <View style={styles.home}>
+    <View style={styles.home}>
         <View>
           <RText textStyle={{fontWeight:300}} fontSize="16">{greeting}</RText>
 
           <RText textStyle={{fontWeight:600}} fontSize="24" color="black">
-            {userInfo.firstname}
-            {userInfo.lastname} 
+            name
           </RText>
         </View>
 
@@ -275,7 +273,7 @@ export default function DashBoard({ navigation }: any) {
               <CloseSvg color="white" height="80px" />
             </TouchableOpacity>
 
-            {userInfo.role === "Buyer " || userInfo.role === "Buyer and Seller" ? (
+            {/* {userInfo.role === "Buyer " || userInfo.role === "Buyer and Seller" ? ( */}
               <TouchableOpacity
                 onPress={liveOrder}
                 style={{
@@ -292,7 +290,7 @@ export default function DashBoard({ navigation }: any) {
                 </RText>
                 <ShoppingCartIcon color="white" size={30} />
               </TouchableOpacity>
-            ) : null}
+            {/* ) : null} */}
            
             <TouchableOpacity
                 onPress={handleListing}

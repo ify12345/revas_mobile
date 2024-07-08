@@ -12,9 +12,7 @@ import Toast from "react-native-toast-message";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import toastConfig from "@/utils/toast";
 import "./global.css";
-import { AuthProvider, AuthContext } from "@/context/AuthContext";
 import { Stack } from "expo-router";
-import Screens from "./page";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -35,14 +33,12 @@ export default function RootLayout() {
   }
 
   return (
-    <AuthProvider>
       <SafeAreaProvider>
         <StatusBar backgroundColor="white" barStyle="dark-content" />
         <ThemeProvider
           value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
         >
           <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="(tab)" />
             <Stack.Screen name="index" options={{ headerShown: false }} />
             <Stack.Screen name="role" options={{ headerShown: false }} />
             <Stack.Screen name="(auth)" options={{ headerShown: false }} />
@@ -50,6 +46,5 @@ export default function RootLayout() {
         </ThemeProvider>
         <Toast config={toastConfig} />
       </SafeAreaProvider>
-    </AuthProvider>
   );
 }
