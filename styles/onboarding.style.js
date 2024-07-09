@@ -10,7 +10,6 @@ import {
 const styles = StyleSheet.create({
   title: {
     fontSize: 24,
-    fontWeight: "700",
     maxWidth: 270,
     textAlign: "center",
   },

@@ -3,7 +3,7 @@ import { Redirect } from "expo-router";
 
 
 const onBoard = () => {
-  const [loggedIn, setIsLoggedIn] = useState(true);
+  const [loggedIn, setIsLoggedIn] = useState(false);
 
   // return <Redirect href={loggedIn ? "(tab)/dashboard" : "/(onboarding)"} />;
   return <Redirect href={loggedIn ? "(auth)/sign-up" : "/(onboarding)"} />;

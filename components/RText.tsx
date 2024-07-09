@@ -5,10 +5,11 @@ import { RFValue } from "react-native-responsive-fontsize";
 type Prop = {
   children: string;
   fontSize?: "10" | "14" | "16" | "18" | "20" | "22" | "24";
+  fontFamily?: string;
   fontWeight?: "medium" | "semibold" | "extrabold";
   color?: string;
   textStyle?: TextStyle; // Update the type of textStyle
-  width?: string;
+  width?: string | number;
 };
 
 export default  function RText(props: Prop){
@@ -52,6 +53,7 @@ export default  function RText(props: Prop){
     <Text
       style={[
         {
+          fontFamily: 'lota',
           fontWeight: getFontWeight(), 
           fontSize: RFValue(getFontSize()),
           color: color ? color : "#1F1F1F",

@@ -2,7 +2,7 @@
 import { AxiosResponse } from 'axios';
 import * as Keychain from 'react-native-keychain';
 import { logout } from '@/redux/reducers/auth';
-import store from '@/redux/store';
+import { performLogout } from '@/redux/utils/authActions';
 import { RejectValue } from '@/types/api';
 
 interface ErrorPayload {
@@ -29,15 +29,15 @@ async function apiRequest(asyncFn: Promise<AxiosResponse>, thunkAPI: RejectedWit
     }
     return data
   } catch (err) {
-    const error = err as ErrorPayload
+    const error = err as ErrorPayload          
     if (!error?.response) {
       return thunkAPI.rejectWithValue({ msg: "Network Error", status: 500 })
-    }
+    } 
     if (error?.response?.status === 500) {
       return thunkAPI.rejectWithValue({ msg: "Server Error", status: 500 })
     }
     if (error?.response.status === 401) {
-      store.dispatch(logout())
+      performLogout(); 
     }
     return thunkAPI.rejectWithValue({
       msg: error?.response?.data?.errors,

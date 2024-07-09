@@ -83,8 +83,8 @@ export default function OnboardingScreen({ navigation }: { navigation: any }) {
         <Image style={styles.img} source={item.image} />
       </View>
       <View style={{ flexDirection: "column", gap: 20 }}>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.subtitle}>{item.subtitle}</Text>
+        <RText fontWeight="extrabold" textStyle={styles.title}>{item.title}</RText>
+        <RText textStyle={styles.subtitle}>{item.subtitle}</RText>
       </View>
 
       {currentSlide === slides.length - 1 ? (
