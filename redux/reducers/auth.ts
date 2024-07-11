@@ -38,7 +38,7 @@ export const authSlice = createSlice({
       })
     builder
       .addCase(register.fulfilled, (state, {payload}) => {
-        state.user = payload.data.profile
+        state.user = payload.data
         state.isAuthenticated = true
         state.isEmailVerified = payload.data.profile.hasVerifiedEmail
       });
