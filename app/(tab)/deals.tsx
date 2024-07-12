@@ -54,7 +54,7 @@ export default function Deals() {
 const localStyles = StyleSheet.create({
   switchContainer: {
     flexDirection: "row",
-    justifyContent: "justify-between",
+    justifyContent: "space-between",
     marginVertical: 10,
     backgroundColor: "#F6F6F6",
     padding:8,
