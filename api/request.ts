@@ -38,6 +38,7 @@ async function apiRequest(asyncFn: Promise<AxiosResponse>, thunkAPI: RejectedWit
     }
     if (error?.response.status === 401) {
       performLogout(); 
+      
     }
     return thunkAPI.rejectWithValue({
       msg: error?.response?.data?.errors,
