@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   Top:{
     borderBottomColor:"#F8F5F9",
     borderBottomWidth:"0.4px",
-    paddingBottom: "15px"
+    paddingBottom: "16px"
   },
   container1: {
     flexDirection: "column",
